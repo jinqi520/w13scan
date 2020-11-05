@@ -36,6 +36,9 @@ def dataToStdout(data, bold=False):
 
     return
 
+# 输入的是url http://www.domain.com/a/b/c/d
+# 则返回 http://www.domain.com/a/b/c/ http://www.domain.com/a/b/ http://www.domain.com/a/ 等url
+
 
 def get_parent_paths(path, domain=True):
     '''

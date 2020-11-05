@@ -62,7 +62,9 @@ class W13SCAN(PluginBase):
             task_push('PerFile', self.requests, self.response)
 
         # Send PerServe
+        # 每个服务仅扫描一次， 也就是一个域名的根路径
         p = urlparse(url)
+        # netloc是域名
         domain = "{}://{}".format(p.scheme, p.netloc)
         if KB["spiderset"].add(domain, 'PerServe'):
             req = requests.get(domain, headers=headers, allow_redirects=False)
@@ -71,6 +73,7 @@ class W13SCAN(PluginBase):
             task_push('PerServe', fake_req, fake_resp)
 
         # Collect directory from response
+        # PerFolder 下的poc会将url中每个目录都扫描一次
         urls = set(get_parent_paths(url))
         for parent_url in urls:
             if not KB["spiderset"].add(parent_url, 'get_link_directory'):
