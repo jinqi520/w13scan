@@ -49,6 +49,8 @@ class W13SCAN(PluginBase):
         domain = "{}://{}/".format(p.scheme, p.netloc)
 
         try:
+            # get_fld 获取主域名
+            # parse_tld 分解域名为多个字符串，然后加上zip或rar等后缀来找出备份文件
             payloads = parse_tld(domain, fix_protocol=True, fail_silently=True)
         except AttributeError:
             payloads = None
@@ -65,7 +67,6 @@ class W13SCAN(PluginBase):
                     content = r.raw.read(10)
                 except:
                     continue
-
                 if r.status_code == 200 and self._check(content):
                     if int(r.headers.get('Content-Length', 0)) == 0:
                         continue

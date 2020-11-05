@@ -53,15 +53,21 @@ def initKb():
 
 def initPlugins():
     # 加载检测插件
+    # os.walk方法，主要用来遍历一个目录内各个子目录和子文件。 返回一个三元tupple 第一个为起始路径，第二个为起始路径下的文件夹，第三个是起始路径下的文件
+    # dirpath 是一个string，代表目录的路径，
+    # dirnames 是一个list，包含了dirpath下所有子目录的名字。
+    # filenames 是一个list，包含了非目录文件的名字。
     for root, dirs, files in os.walk(path.scanners):
         files = filter(lambda x: not x.startswith("__") and x.endswith(".py"), files)
         for _ in files:
+            # splitext分割文件名和扩展名
             q = os.path.splitext(_)[0]
             if conf.able and q not in conf.able and q != 'loader':
                 continue
             if conf.disable and q in conf.disable:
                 continue
             filename = os.path.join(root, _)
+            # 拿到scanners下的poc对象
             mod = load_file_to_module(filename)
             try:
                 mod = mod.W13SCAN()
@@ -148,6 +154,7 @@ def _set_conf():
         exit()
 
     # server_addr
+    # list中是可变的,tuple不可变 所以tuple没有insert, pop,append方法
     if isinstance(conf["server_addr"], str):
         defaulf = 7778
         if ":" in conf["server_addr"]:
@@ -185,13 +192,18 @@ def _init_stdout():
 
 
 def init(root, cmdline):
+    # 一个命令行输入彩色文字的模块
     cinit(autoreset=True)
+    # 设置各种目录变量
     setPaths(root)
     banner()
     _init_conf()  # 从config.py读取配置信息
+    # 将命令行中的参数合并进 lib.core.data.conf  AttribDict
     _merge_options(cmdline)  # 从cmdline读取配置
+    # 配置监听接口和 代理
     _set_conf()
     initKb()
+    # 初始化插件
     initPlugins()
     _init_stdout()
     patch_all()

@@ -24,13 +24,14 @@ def exception_handled_function(thread_function, args=()):
 
 def run_threads(num_threads, thread_function, args: tuple = ()):
     threads = []
-
+    # thread_function是需要运行的方法 task_run
     try:
         info_msg = "Staring [#{0}] threads".format(num_threads)
         logger.info(info_msg)
 
         # Start the threads
         for num_threads in range(num_threads):
+            # exception_handled_function方法运行task_run，只不过捕获了异常
             thread = threading.Thread(target=exception_handled_function, name=str(num_threads),
                                       args=(thread_function, args))
             thread.setDaemon(True)
@@ -68,8 +69,10 @@ def start():
 
 
 def task_run():
+    # 当被动扫描器还在运行或队列中还有任务时
     while KB["continue"] or not KB["task_queue"].empty():
         poc_module_name, request, response = KB["task_queue"].get()
+        # 线程枷锁
         KB.lock.acquire()
         KB.running += 1
         if poc_module_name not in KB.running_plugins:
@@ -78,6 +81,7 @@ def task_run():
         KB.lock.release()
         printProgress()
         poc_module = copy.deepcopy(KB["registered"][poc_module_name])
+        # 进行扫描 运行poc的execute方法
         poc_module.execute(request, response)
         KB.lock.acquire()
         KB.finished += 1

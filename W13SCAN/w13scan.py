@@ -32,6 +32,8 @@ def modulePath():
     """
 
     try:
+        # 可能是exe， sys.executable获取当前exe所在目录
+        # sys.frozen用于判断当前是exe还是py， 因为如果是exe __file__将会失效
         _ = sys.executable if hasattr(sys, "frozen") else __file__
     except NameError:
         _ = inspect.getsourcefile(modulePath)
@@ -40,10 +42,13 @@ def modulePath():
 
 
 def main():
+    # 检测python版本是否大于3.6
     version_check()
 
     # init
+    # 获取根路径
     root = modulePath()
+    # 获取命令后参数 cmdline是命令行参数字典
     cmdline = cmd_line_parser()
     init(root, cmdline)
 
@@ -77,6 +82,7 @@ def main():
         scanner.setDaemon(True)
         scanner.start()
         # 启动代理服务器
+        # https拦截需要安装证书
         baseproxy = AsyncMitmProxy(server_addr=conf.server_addr, https=True)
 
         try:
@@ -90,4 +96,5 @@ def main():
 
 
 if __name__ == '__main__':
+    # 被动扫描 python3 w13scan.py -s 127.0.0.1:7778 --html # 端口可省略，默认为7778,开启--html即实时生成html报告
     main()
