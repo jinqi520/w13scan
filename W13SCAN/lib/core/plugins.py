@@ -153,7 +153,7 @@ class PluginBase(object):
         self.response = response
         output = None
         try:
-            # 这里主要是为了运行 loader.py的audit方法
+            # poc主要检测逻辑方法
             output = self.audit()
         except NotImplementedError:
             msg = 'Plugin: {0} not defined "{1} mode'.format(self.name, 'audit')
