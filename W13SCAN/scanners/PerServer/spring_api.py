@@ -1,8 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# @Time    : 2019/7/21 4:45 PM
-# @Author  : w8ay
-# @File    : backup_domain.py
 from urllib.parse import urlparse
 
 import requests
@@ -42,8 +37,8 @@ from lib.core.plugins import PluginBase
 
 
 class W13SCAN(PluginBase):
-    name = '基于域名的备份文件'
-    desc = '''扫描基于域名的备份文件'''
+    name = 'spring boot api'
+    desc = '''spring 监控接口未关闭导致信息泄漏'''
 
     def audit(self):
         headers = self.requests.headers
