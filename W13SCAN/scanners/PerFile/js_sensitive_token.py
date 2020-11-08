@@ -62,7 +62,7 @@ class W13SCAN(PluginBase):
         finds = []
         msg = ""
         for key in regs:
-            results = regs[key].findall(self.response.text)
+            results = re.findall(regs[key], self.response.text, re.M | re.I)
             if len(results) != 0:
                 for result in results:
                     if len(result) < 100:
