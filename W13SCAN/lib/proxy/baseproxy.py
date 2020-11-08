@@ -313,7 +313,6 @@ class Response(HttpTransfer):
 class CAAuth(object):
     '''
     用于CA证书的生成以及代理证书的自签名
-
     '''
 
     def __init__(self, ca_file="ca.pem", cert_file='ca.crt'):
