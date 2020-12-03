@@ -32,6 +32,7 @@ class W13SCAN(PluginBase):
         headers = self.requests.headers
         result = self.new_result()
         result.init_info(self.requests.url, "spring api 泄漏", VulType.BRUTE_FORCE)
+        flag = False
         for payload in list:
             test_url = directory + "/" + payload
             try:
@@ -39,6 +40,8 @@ class W13SCAN(PluginBase):
             except requests.exceptions.MissingSchema:
                 continue
             if r.status_code == 200 and "java.vm.version" in r.text:
+                flag = True
                 result.add_detail("payload请求" + payload, test_url, generateResponse(r),
                                   "spring api 泄漏：" + test_url, "", "", PLACE.GET)
-        self.success(result)
+        if flag:
+            self.success(result)
