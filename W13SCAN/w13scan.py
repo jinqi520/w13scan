@@ -86,6 +86,7 @@ def main():
         baseproxy = AsyncMitmProxy(server_addr=conf.server_addr, https=True)
 
         try:
+            # 使用SockectServer模块的serve_forever()函数后,程序就一直挂起等待处理socket连接了
             baseproxy.serve_forever()
         except KeyboardInterrupt:
             scanner.join(0.1)

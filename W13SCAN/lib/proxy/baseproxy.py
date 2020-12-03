@@ -102,6 +102,9 @@ class HttpTransfer(object):
         :return:
         '''
         header_str = ""
+        # if self._headers['Host']:
+        #     header_str = "Host: " + self._headers['Host'] + '\r\n'
+        #     del self._headers['Host']
         for k, v in self._headers.items():
             header_str += k + ': ' + v + '\r\n'
 
@@ -426,6 +429,7 @@ class ProxyHandle(BaseHTTPRequestHandler):
         '''
 
         self.is_connected = True  # 用来标识是否之前经历过CONNECT
+        # 根据文件后缀来判断是否直接放行
         if self._is_replay():
             self.connect_relay()
         else:
@@ -497,6 +501,7 @@ class ProxyHandle(BaseHTTPRequestHandler):
             if request:
                 if self.is_connected:
                     request.set_https(True)
+                # print("\r代理发送请求" + str(request.to_data()))
                 self._proxy_sock.sendall(request.to_data())
                 # 将响应信息返回给客户端
                 errMsg = ''
@@ -514,6 +519,7 @@ class ProxyHandle(BaseHTTPRequestHandler):
 
                 if response:
                     try:
+                        # print("\r代理返回respone" + str(response.to_data()))
                         self.request.sendall(response.to_data())
                     except BrokenPipeError:
                         pass
@@ -653,6 +659,7 @@ class ProxyHandle(BaseHTTPRequestHandler):
                         if r is self.request:
                             self._proxy_sock.sendall(data)
                         elif r is self._proxy_sock:
+                            print("\r" + str(data))
                             self.request.sendall(data)
                     else:
                         break
