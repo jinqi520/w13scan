@@ -36,7 +36,10 @@ class FakeReq(object):
         self._build()
 
     def _analysis_post(self):
-        post_data = unquote(self._body)
+        try:
+            post_data = unquote(self._body.decode())
+        except UnicodeDecodeError:
+            post_data = unquote(self._body.decode('iso-8859-1'))
         if re.search('([^=]+)=([^%s]+%s?)' % (DEFAULT_GET_POST_DELIMITER, DEFAULT_GET_POST_DELIMITER),
                      post_data):
             self._post_hint = POST_HINT.NORMAL

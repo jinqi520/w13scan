@@ -18,6 +18,7 @@ from lib.parse.parse_responnse import FakeResp
 
 class W13SCAN(PluginBase):
     type = 'loader'
+    # 大部分插件类型是loder时，代表运行其他所有插件
     desc = '''Loader插件对请求以及响应进行解析，从而调度更多插件运行'''
     name = 'plugin loader'
 

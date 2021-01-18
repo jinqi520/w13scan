@@ -124,6 +124,8 @@ def _init_conf():
     conf.threads = THREAD_NUM
     conf.disable = DISABLE
     conf.able = ABLE
+    conf.able = None
+    conf.clean = True
     # not in cmd parser params
     conf.excludes = EXCLUDES
     conf.XSS_LIMIT_CONTENT_TYPE = XSS_LIMIT_CONTENT_TYPE

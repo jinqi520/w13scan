@@ -15,6 +15,8 @@ from lib.proxy.baseproxy import AsyncMitmProxy
 from lib.parse.cmdparse import cmd_line_parser
 from lib.core.data import logger, conf, KB
 from lib.core.option import init
+from lib.core.conn import set_conn
+import redis_run
 
 
 def version_check():
@@ -75,7 +77,7 @@ def main():
             fake_resp = FakeResp(req.status_code, req.content, req.headers)
             task_push_from_name('loader', fake_req, fake_resp)
         start()
-    elif conf.server_addr:
+    elif conf.redis:
         KB["continue"] = True
         # 启动漏洞扫描器
         scanner = threading.Thread(target=start)
@@ -83,17 +85,18 @@ def main():
         scanner.start()
         # 启动代理服务器
         # https拦截需要安装证书
-        baseproxy = AsyncMitmProxy(server_addr=conf.server_addr, https=True)
-
+        # baseproxy = AsyncMitmProxy(server_addr=conf.server_addr, https=True)
+        set_conn()
         try:
+            redis_run.start()
             # 使用SockectServer模块的serve_forever()函数后,程序就一直挂起等待处理socket连接了
-            baseproxy.serve_forever()
+            # baseproxy.serve_forever()
         except KeyboardInterrupt:
             scanner.join(0.1)
-            threading.Thread(target=baseproxy.shutdown, daemon=True).start()
+            # threading.Thread(target=baseproxy.shutdown, daemon=True).start()
             deinit()
             print("\n[*] User quit")
-        baseproxy.server_close()
+        # baseproxy.server_close()
 
 
 if __name__ == '__main__':
