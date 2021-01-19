@@ -15,7 +15,7 @@ from lib.proxy.baseproxy import AsyncMitmProxy
 from lib.parse.cmdparse import cmd_line_parser
 from lib.core.data import logger, conf, KB
 from lib.core.option import init
-from lib.core.conn import set_conn
+from lib.core.conn import set_conn, cleandb
 import redis_run
 
 
@@ -87,6 +87,7 @@ def main():
         # https拦截需要安装证书
         # baseproxy = AsyncMitmProxy(server_addr=conf.server_addr, https=True)
         set_conn()
+        # cleandb()
         try:
             redis_run.start()
             # 使用SockectServer模块的serve_forever()函数后,程序就一直挂起等待处理socket连接了

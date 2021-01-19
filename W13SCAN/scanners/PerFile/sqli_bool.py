@@ -211,7 +211,7 @@ class W13SCAN(PluginBase):
                         ret2 = self.inject(origin_dict, positon, k, payload_false, payload_true)
                         if ret2:
                             result = self.new_result()
-                            result.init_info(self.requests.url, "SQL注入", VulType.SQLI)
+                            result.init_info(self.requests.url, "布尔型SQL注入", VulType.SQLI)
                             for values in ret1:
                                 result.add_detail("第一次布尔验证", values["request"], values["response"],
                                                   values["desc"], values["key"], values["payload"],

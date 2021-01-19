@@ -56,22 +56,4 @@ def set_conn():
 def cleandb():
     # red = redis.StrictRedis(connection_pool=conn.redis)
     red = getredis()
-    if None in red.hmget("count_all", "doned", "request", "block_host", "request_fail"):
-        count_all = {
-            "block_host": 0,  # 被封的host_port
-            'doned': 0,  # 已经做过的burpdata条数
-            "request": 0,  # request 次数
-            "request_fail": 0,  # request fail次数
-            "active": 0,  # 正在工作的poc数
-        }
-        red.hmset("count_all", count_all)
-    if conf.clean:
-        red.flushall()
-        count_all = {
-            "block_host": 0,  # 被封的host_port
-            'doned': 0,  # 已经做过的burpdata条数
-            "request": 0,  # request 次数
-            "request_fail": 0,  # request fail次数
-            "active": 0,  # 正在工作的poc数
-        }
-        red.hmset("count_all", count_all)
+    red.flushall()

@@ -42,7 +42,7 @@ class W13SCAN(PluginBase):
                 message_lists = sensitive_page_error_message_check(html)
                 if message_lists:
                     result = self.new_result()
-                    result.init_info(self.requests.url, "SQL注入", VulType.SQLI)
+                    result.init_info(self.requests.url, "基于报错的SQL注入", VulType.SQLI)
                     result.add_detail("payload探测", r.reqinfo, generateResponse(r),
                                       "需要注意的报错信息:{}".format(repr(message_lists)), key, payload,
                                       positon)
