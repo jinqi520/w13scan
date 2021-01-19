@@ -57,3 +57,4 @@ def cleandb():
     # red = redis.StrictRedis(connection_pool=conn.redis)
     red = getredis()
     red.flushall()
+    red.close()

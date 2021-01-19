@@ -28,7 +28,7 @@ class W13SCAN(PluginBase):
     参考：https://niemand.com.ar/2021/01/08/exploiting-application-level-profile-semantics-apls-from-spring-data-rest/'''
 
     def audit(self):
-        if "application/hal+json" in self.response.headers.get('Content-Type'):
+        if self.response.headers.get('Content-Type') is not None and "application/hal+json" in self.response.headers.get('Content-Type'):
             headers = self.requests.headers
             r = requests.get(self.requests.url, headers=headers, timeout=30)
             result = self.new_result()
