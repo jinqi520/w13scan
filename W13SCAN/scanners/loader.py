@@ -25,7 +25,7 @@ class W13SCAN(PluginBase):
     def audit(self):
         headers = self.requests.headers
         url = self.requests.url
-        logger.info("Scan url:{}".format(url))
+        logger.info("\nScan url:{}".format(url))
         p = urlparse(url)
         if not p.netloc:
             return

@@ -13,6 +13,7 @@ import json
 import re
 
 from pyjsparser import parse
+import json
 
 from lib.core.common import generateResponse
 from lib.core.enums import VulType, PLACE
@@ -31,8 +32,10 @@ class W13SCAN(PluginBase):
         if self.response.headers.get('Content-Type') is not None and "application/hal+json" in self.response.headers.get('Content-Type'):
             headers = self.requests.headers
             r = requests.get(self.requests.url, headers=headers, timeout=30)
-            result = self.new_result()
-            result.init_info(self.requests.url, "存在apls接口", VulType.SENSITIVE)
-            result.add_detail("payload探测", r.reqinfo, generateResponse(r),
-                              "发现apls接口:{}".format(self.requests.url), "", "", PLACE.GET)
-            self.success(result)
+            api_json = r.json()
+            if len(api_json['_links']) > 1:
+                result = self.new_result()
+                result.init_info(self.requests.url, "存在apls接口", VulType.SENSITIVE)
+                result.add_detail("payload探测", r.reqinfo, generateResponse(r),
+                                  "发现apls接口:{}".format(self.requests.url), "", "", PLACE.GET)
+                self.success(result)
