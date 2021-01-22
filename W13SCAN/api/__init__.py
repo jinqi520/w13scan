@@ -6,7 +6,7 @@
 import copy
 
 from lib.core.option import init
-from lib.helper.function import isJavaObjectDeserialization, isPHPObjectDeserialization, isPythonObjectDeserialization
+from lib.helper.function import isJavaObjectDeserialization, isPHPObjectDeserialization, isPythonObjectDeserialization, isjwt
 from lib.core.plugins import PluginBase
 from lib.core.output import ResultObject
 from lib.core.enums import WEB_PLATFORM, PLACE, HTTPMETHOD, VulType
@@ -19,7 +19,7 @@ from w13scan import modulePath
 import requests
 
 __all__ = [
-    'isJavaObjectDeserialization', 'isPHPObjectDeserialization', 'isPythonObjectDeserialization',
+    'isJavaObjectDeserialization', 'isPHPObjectDeserialization', 'isPythonObjectDeserialization', 'isjwt',
     'PluginBase', 'ResultObject', 'WEB_PLATFORM', 'conf', 'KB',
     'path', 'logger', 'PLACE', 'HTTPMETHOD', 'VulType', 'generateResponse', 'task_push_from_name', 'task_push', 'start',
 ]

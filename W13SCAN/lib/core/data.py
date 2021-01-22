@@ -12,3 +12,4 @@ path = AttribDict()
 KB = AttribDict()
 conn = AttribDict()
 conf = AttribDict()
+jwtlist = []
